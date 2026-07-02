@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kikyusa Trader Enterprise</title>
+
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Kikyusa Trader Enterprise v2
+   Mobile Business Management UI
+*/
+
+
+*{
+    box-sizing:border-box;
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+
+body{
+
+    margin:0;
+    background:#f5f7fa;
+    color:#111827;
+
+}
+
+
+
+.app{
+
+    width:100%;
+    max-width:500px;
+    margin:auto;
+    min-height:100vh;
+    padding-top:75px;
+    padding-bottom:85px;
+
+}
+
+
+
+/* HEADER */
+
+header{
+
+    position:fixed;
+    top:0;
+    width:100%;
+    max-width:500px;
+    height:70px;
+
+    background:#1d4ed8;
+    color:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:12px 16px;
+
+    z-index:1000;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.15);
+
+}
+
+
+header h2{
+
+    margin:0;
+    font-size:21px;
+
+}
+
+
+header small{
+
+    opacity:.8;
+
+}
+
+
+.offline{
+
+    background:#22c55e;
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+}
+
+
+
+
+
+/* PAGES */
+
+
+.page{
+
+    display:none;
+
+    padding:15px;
+
+}
+
+
+
+.page.active{
+
+    display:block;
+
+}
+
+
+
+
+
+/* CARDS */
+
+
+.card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:15px;
+
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+.hero-card{
+
+    background:
+    linear-gradient(
+    135deg,
+    #1d4ed8,
+    #2563eb
+    );
+
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    margin-bottom:18px;
+
+}
+
+
+
+.hero-card h1{
+
+    font-size:34px;
+
+    margin:10px 0;
+
+}
+
+
+
+.finance-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+}
+
+
+
+.finance-grid div{
+
+    background:
+    rgba(255,255,255,.15);
+
+    padding:12px;
+
+    border-radius:12px;
+
+}
+
+
+
+
+
+/* INPUTS */
+
+
+input,
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    margin:7px 0;
+
+    border-radius:12px;
+
+    border:
+
+    1px solid #d1d5db;
+
+    background:white;
+
+    font-size:15px;
+
+}
+
+
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-top:8px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#1d4ed8;
+
+    color:white;
+
+    font-weight:bold;
+
+    font-size:15px;
+
+}
+
+
+
+button:active{
+
+    transform:scale(.97);
+
+}
+
+
+
+
+
+/* ALERTS */
+
+
+.danger-box{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+    border-radius:15px;
+
+    padding:16px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+
+/* INVENTORY */
+
+
+.low-stock{
+
+    color:#dc2626;
+
+    font-weight:bold;
+
+}
+
+
+
+.product-card{
+
+    border-left:
+
+    5px solid #1d4ed8;
+
+}
+
+
+
+
+/* SALES */
+
+
+.sale-card{
+
+    background:white;
+
+    padding:15px;
+
+    margin-bottom:10px;
+
+    border-radius:15px;
+
+}
+
+
+
+
+
+/* BOTTOM NAVIGATION */
+
+
+nav{
+
+    position:fixed;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    max-width:500px;
+
+    height:75px;
+
+    background:white;
+
+    display:flex;
+
+    border-top:
+
+    1px solid #ddd;
+
+    z-index:1000;
+
+}
+
+
+
+nav button{
+
+    flex:1;
+
+    margin:0;
+
+    border-radius:0;
+
+    background:white;
+
+    color:#6b7280;
+
+    font-size:12px;
+
+}
+
+
+
+nav button.active{
+
+    color:#1d4ed8;
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+/* REPORTS */
+
+
+.report-number{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#1d4ed8;
+
+}
+
+
+
+
+
+/* MOBILE OPTIMIZATION */
+
+
+@media(max-width:500px){
+
+    body{
+
+        overflow-x:hidden;
+
+    }
+
+}
+
+
+
+@media(min-width:501px){
+
+    body{
+
+        display:flex;
+
+        justify-content:center;
+
+    }
+
+}
+</style>
+<script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+<script src="script.js"></script>
+<script>
+  /* 
+Kikyusa Trader Enterprise v2
+Local Business Management Engine
+Dexie.js + IndexedDB
+*/
+
+
+const db = new Dexie("KikyusaTraderDB");
+
+
+
+db.version(2).stores({
+
+    products:
+    "++id,name,category,cost,price,stock,supplier",
+
+    sales:
+    "++id,invoice,productId,productName,totalCost,totalPrice,profit,payment,date,customerName",
+
+    customers:
+    "++id,name,phone,totalDebt",
+
+    expenses:
+    "++id,title,amount,date",
+
+    payments:
+    "++id,customerId,amount,date",
+
+    settings:
+    "key,value"
+
+});
+
+
+
+
+let currentPage="dashboard";
+
+
+
+
+// Navigation
+
+function navigate(page,btn){
+
+
+    document.querySelectorAll(".page")
+    .forEach(p=>{
+        p.classList.remove("active");
+    });
+
+
+    document.getElementById(page)
+    .classList.add("active");
+
+
+
+    document.querySelectorAll("nav button")
+    .forEach(b=>{
+        b.classList.remove("active");
+    });
+
+
+    btn.classList.add("active");
+
+
+    currentPage=page;
+
+
+    loadDashboard();
+
+    loadProducts();
+
+    loadSales();
+
+    loadDebts();
+
+    loadCustomers();
+
+}
+
+
+
+
+
+
+
+// Save Product
+
+async function saveProduct(){
+
+
+    let product={
+
+        name:
+        productName.value,
+
+        category:
+        category.value,
+
+        cost:
+        Number(buyingPrice.value),
+
+        price:
+        Number(sellingPrice.value),
+
+        stock:
+        Number(stockQuantity.value),
+
+        supplier:
+        supplier.value
+
+    };
+
+
+    if(!product.name){
+
+        alert("Enter product name");
+        return;
+
+    }
+
+
+
+    await db.products.add(product);
+
+
+
+    document.querySelectorAll(
+    "#inventory input")
+    .forEach(i=>i.value="");
+
+
+    loadProducts();
+
+}
+
+
+
+
+
+
+
+// Load Inventory
+
+
+async function loadProducts(){
+
+
+    let data=
+    await db.products.toArray();
+
+
+
+    let list=
+    document.getElementById("inventoryList");
+
+
+
+    let dropdown=
+    document.getElementById("saleProduct");
+
+
+
+    if(!list)return;
+
+
+
+    list.innerHTML="";
+
+
+    dropdown.innerHTML=
+    "<option>Select Product</option>";
+
+
+
+    data.forEach(p=>{
+
+
+        let warning=
+        p.stock<=3?
+        "low-stock":"";
+
+
+
+        list.innerHTML+=`
+
+        <div class="card product-card">
+
+        <h3>${p.name}</h3>
+
+        <p>
+        Category: ${p.category}
+        </p>
+
+        <p>
+        Selling: UGX ${p.price}
+        </p>
+
+
+        <p class="${warning}">
+        Stock: ${p.stock}
+        </p>
+
+
+        </div>
+
+        `;
+
+
+
+        dropdown.innerHTML+=`
+
+        <option value="${p.id}">
+        ${p.name}
+        </option>
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// Create Sale
+
+
+async function createSale(){
+
+
+    let id=
+    Number(saleProduct.value);
+
+
+
+    let qty=
+    Number(saleQuantity.value);
+
+
+
+    let product=
+    await db.products.get(id);
+
+
+
+    if(!product){
+
+        alert("Choose product");
+        return;
+
+    }
+
+
+
+    if(qty>product.stock){
+
+        alert("Insufficient stock");
+        return;
+
+    }
+
+
+
+    let totalCost=
+    product.cost*qty;
+
+
+
+    let totalPrice=
+    product.price*qty;
+
+
+
+    let profit=
+    totalPrice-totalCost;
+
+
+
+    let invoice=
+    "INV-"+Date.now();
+
+
+
+    await db.sales.add({
+
+        invoice,
+
+        productId:id,
+
+        productName:
+        product.name,
+
+        totalCost,
+
+        totalPrice,
+
+        profit,
+
+        payment:
+        paymentMethod.value,
+
+        customerName:
+        customerName.value,
+
+        date:
+        new Date().toLocaleString()
+
+    });
+
+
+
+    await db.products.update(id,{
+
+        stock:
+        product.stock-qty
+
+    });
+
+
+
+    loadDashboard();
+
+    loadProducts();
+
+    loadSales();
+
+}
+
+
+
+
+
+
+
+// Dashboard
+
+
+async function loadDashboard(){
+
+
+    let sales=
+    await db.sales.toArray();
+
+
+    let expensesData=
+    await db.expenses.toArray();
+
+
+
+    let profit=0;
+
+    let cash=0;
+
+    let expenseTotal=0;
+
+
+
+    sales.forEach(s=>{
+
+
+        if(s.payment!="Debt"){
+
+            profit+=s.profit;
+
+            cash+=s.totalPrice;
+
+        }
+
+
+    });
+
+
+
+    expensesData.forEach(e=>{
+
+        expenseTotal+=e.amount;
+
+    });
+
+
+
+    let net=
+    profit-expenseTotal;
+
+
+
+    if(document.getElementById("netProfit")){
+
+
+        netProfit.innerHTML=
+        "UGX "+net;
+
+
+        cashSales.innerHTML=
+        "UGX "+cash;
+
+
+        expenses.innerHTML=
+        "UGX "+expenseTotal;
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// Sales History
+
+
+async function loadSales(){
+
+
+    let list=
+    document.getElementById("salesList");
+
+
+    if(!list)return;
+
+
+
+    let sales=
+    await db.sales.toArray();
+
+
+
+    list.innerHTML="";
+
+
+
+    sales.reverse()
+    .forEach(s=>{
+
+
+        list.innerHTML+=`
+
+        <div class="sale-card">
+
+        <b>${s.productName}</b>
+
+        <p>
+        Qty: ${s.invoice}
+        </p>
+
+        <p>
+        UGX ${s.totalPrice}
+        </p>
+
+        <small>
+        ${s.date}
+        </small>
+
+        </div>
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+// Customers
+
+
+async function saveCustomer(){
+
+
+    await db.customers.add({
+
+        name:
+        customerFullName.value,
+
+        phone:
+        customerPhone.value,
+
+        totalDebt:0
+
+    });
+
+
+    customerFullName.value="";
+
+    customerPhone.value="";
+
+
+    loadCustomers();
+
+
+}
+
+
+
+
+async function loadCustomers(){
+
+
+    let list=
+    document.getElementById("customerList");
+
+
+    if(!list)return;
+
+
+
+    let customers=
+    await db.customers.toArray();
+
+
+
+    list.innerHTML="";
+
+
+
+    customers.forEach(c=>{
+
+
+        list.innerHTML+=`
+
+        <div class="card">
+
+        <b>${c.name}</b>
+
+        <p>${c.phone}</p>
+
+        Debt:
+        UGX ${c.totalDebt}
+
+        </div>
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+// Debt Management
+
+
+async function loadDebts(){
+
+
+    let list=
+    document.getElementById("debtList");
+
+
+    if(!list)return;
+
+
+
+    let debts=
+    await db.sales
+    .where("payment")
+    .equals("Debt")
+    .toArray();
+
+
+
+    let total=0;
+
+
+    list.innerHTML="";
+
+
+
+    debts.forEach(d=>{
+
+
+        total+=d.totalPrice;
+
+
+
+        list.innerHTML+=`
+
+        <div class="card">
+
+        <b>
+        ${d.customerName}
+        </b>
+
+        <p>
+        ${d.productName}
+        </p>
+
+        <p>
+        UGX ${d.totalPrice}
+        </p>
+
+
+        </div>
+
+        `;
+
+
+    });
+
+
+
+    debtTotal.innerHTML=
+    "UGX "+total;
+
+
+}
+
+
+
+
+
+
+
+
+// Expenses
+
+
+async function addExpense(title,amount){
+
+
+    await db.expenses.add({
+
+        title,
+
+        amount,
+
+        date:
+        new Date().toLocaleString()
+
+    });
+
+
+
+    loadDashboard();
+
+
+}
+
+
+
+
+
+
+
+
+// Backup Database
+
+
+async function backupData(){
+
+
+    let backup={
+
+        products:
+        await db.products.toArray(),
+
+        sales:
+        await db.sales.toArray(),
+
+        customers:
+        await db.customers.toArray(),
+
+        expenses:
+        await db.expenses.toArray()
+
+    };
+
+
+
+    let file=
+    new Blob(
+
+        [JSON.stringify(backup)],
+
+        {type:"application/json"}
+
+    );
+
+
+
+    let link=
+    document.createElement("a");
+
+
+    link.href=
+    URL.createObjectURL(file);
+
+
+    link.download=
+    "kikyusa-backup.json";
+
+
+    link.click();
+
+
+}
+
+
+
+
+
+
+
+
+// Initial Loading
+
+
+window.onload=function(){
+
+    loadDashboard();
+
+    loadProducts();
+
+    loadSales();
+
+    loadDebts();
+
+    loadCustomers();
+
+};
+</script>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#1d4ed8">
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<header>
+
+<div>
+<h2>Kikyusa Trader</h2>
+<small>Enterprise Business Manager</small>
+</div>
+
+<span class="offline">
+● Offline
+</span>
+
+</header>
+
+
+
+<main>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+
+<div class="hero-card">
+
+<h3>Net Business Profit</h3>
+
+<h1 id="netProfit">
+UGX 0
+</h1>
+
+
+<div class="finance-grid">
+
+<div>
+<p>Cash Sales</p>
+<b id="cashSales">
+UGX 0
+</b>
+</div>
+
+
+<div>
+<p>Expenses</p>
+<b id="expenses">
+UGX 0
+</b>
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h3>Quick Sale</h3>
+
+
+<select id="saleProduct">
+
+<option>
+Select Product
+</option>
+
+</select>
+
+
+<input 
+id="saleQuantity"
+type="number"
+placeholder="Quantity">
+
+
+<select id="paymentMethod">
+
+<option>
+Cash
+</option>
+
+<option>
+Mobile Money
+</option>
+
+<option>
+Bank
+</option>
+
+<option>
+Debt
+</option>
+
+</select>
+
+
+
+<input 
+id="customerName"
+placeholder="Customer Name"
+style="display:none;">
+
+
+
+<button onclick="createSale()">
+Complete Sale
+</button>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h3>Quick Actions</h3>
+
+
+<button onclick="openExpense()">
+Add Expense
+</button>
+
+
+<button onclick="generateReport()">
+View Report
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<!-- INVENTORY -->
+
+
+<section id="inventory" class="page">
+
+
+<div class="card">
+
+
+<h3>Add New Product</h3>
+
+
+<input id="productName"
+placeholder="Product Name">
+
+
+<input id="category"
+placeholder="Category">
+
+
+<input id="buyingPrice"
+type="number"
+placeholder="Buying Price UGX">
+
+
+<input id="sellingPrice"
+type="number"
+placeholder="Selling Price UGX">
+
+
+<input id="stockQuantity"
+type="number"
+placeholder="Stock Quantity">
+
+
+<input id="supplier"
+placeholder="Supplier Name">
+
+
+<button onclick="saveProduct()">
+Save Product
+</button>
+
+
+</div>
+
+
+
+<div id="inventoryList">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- SALES -->
+
+
+<section id="sales" class="page">
+
+
+<div class="card">
+
+
+<h3>Sales History</h3>
+
+
+<input 
+id="salesSearch"
+placeholder="Search sales">
+
+
+</div>
+
+
+<div id="salesList">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- DEBTS -->
+
+
+<section id="debts" class="page">
+
+
+<div class="danger-box">
+
+<h3>
+Outstanding Debts
+</h3>
+
+
+<h2 id="debtTotal">
+UGX 0
+</h2>
+
+
+</div>
+
+
+
+<div id="debtList">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- CUSTOMERS -->
+
+
+<section id="customers" class="page">
+
+
+<div class="card">
+
+
+<h3>
+Customer Management
+</h3>
+
+
+<input id="customerFullName"
+placeholder="Customer Name">
+
+
+<input id="customerPhone"
+placeholder="Phone Number">
+
+
+<button onclick="saveCustomer()">
+
+Save Customer
+
+</button>
+
+
+</div>
+
+
+<div id="customerList">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- REPORTS -->
+
+
+<section id="reports" class="page">
+
+
+<div class="card">
+
+
+<h3>
+Business Reports
+</h3>
+
+
+<p>
+Today's Sales:
+<span id="todaySales">
+UGX 0
+</span>
+</p>
+
+
+<p>
+Today's Profit:
+<span id="todayProfit">
+UGX 0
+</span>
+</p>
+
+
+<p>
+Stock Value:
+<span id="stockValue">
+UGX 0
+</span>
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- SETTINGS -->
+
+
+<section id="settings" class="page">
+
+
+<div class="card">
+
+
+<h3>
+Business Settings
+</h3>
+
+
+<input 
+id="businessName"
+placeholder="Business Name">
+
+
+<button onclick="saveSettings()">
+Save Settings
+</button>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<button onclick="backupData()">
+Export Backup
+</button>
+
+
+<button onclick="restoreData()">
+Restore Backup
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+
+
+
+<nav>
+
+
+<button class="active"
+onclick="navigate('dashboard',this)">
+📊
+<br>
+Dashboard
+</button>
+
+
+<button onclick="navigate('inventory',this)">
+📦
+<br>
+Inventory
+</button>
+
+
+<button onclick="navigate('sales',this)">
+💰
+<br>
+Sales
+</button>
+
+
+<button onclick="navigate('debts',this)">
+📒
+<br>
+Debts
+</button>
+
+
+<button onclick="navigate('customers',this)">
+👥
+<br>
+Customers
+</button>
+
+
+</nav>
+
+
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+<script>
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js")
+
+.then(()=>{
+
+console.log("Kikyusa Trader offline mode ready");
+
+})
+
+.catch(error=>{
+
+console.log("Service worker error:",error);
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
